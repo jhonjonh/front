@@ -12,6 +12,7 @@ import { DepartmentService } from '../department.service';
 })
 export class DepartmentComponent implements OnInit {
   depName: string = '';
+  depPreco: string = '';
   departments: Department[] = [];
   depEdit: Department = null;
 
@@ -32,21 +33,21 @@ export class DepartmentComponent implements OnInit {
   save() {
     if (this.depEdit) {
       this.departmentService
-        .update({ name: this.depName, _id: this.depEdit._id })
+        .update({ name: this.depName, preco: this.depPreco, _id: this.depEdit._id })
         .subscribe(
           (dep) => {
-            this.notify('UPADATED!');
+            this.notify('Atualizado!');
           },
           (err) => {
-            this.notify('ERROR');
+            this.notify('Erro ao atualizar');
             console.log(err);
           }
         );
     } else {
-      this.departmentService.add({ name: this.depName }).subscribe(
+      this.departmentService.add({ name: this.depName, preco: this.depPreco }).subscribe(
         (dep) => {
           console.log(dep);
-          this.notify('INSERTED!');
+          this.notify('Inserido!');
         },
         (err) => {
           console.error(err);
@@ -58,18 +59,20 @@ export class DepartmentComponent implements OnInit {
 
   edit(dep: Department) {
     this.depName = dep.name;
+    this.depPreco = dep.preco;
     this.depEdit = dep;
   }
 
   delete(dep: Department) {
     this.departmentService.del(dep).subscribe(
-      () => this.notify('REMOVED!'),
+      () => this.notify('Apagado!'),
       (err) => this.notify(err.error.msg)
     );
   }
 
   clearFields() {
     this.depName = '';
+    this.depPreco = '';
     this.depEdit = null;
   }
 

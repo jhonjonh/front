@@ -9,7 +9,7 @@ import { tap, delay } from 'rxjs/operators';
 })
 export class DepartmentService {
 
-  readonly url = 'http://localhost:3000/departments';
+  readonly url = 'http://localhost:3000/produtos';
 
   private departmentsSubject$: BehaviorSubject<Department[]> = new BehaviorSubject<Department[]>(null);
   private loaded: boolean = false;
@@ -56,6 +56,7 @@ export class DepartmentService {
         let i = departments.findIndex(d => d._id === dep._id);
         if(i>=0)
           departments[i].name = d.name;
+          departments[i].preco = d.preco;
       })
     )
   }
